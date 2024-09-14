@@ -26,22 +26,12 @@
 
     <!-- Import the webpage's stylesheet -->
     <link rel="stylesheet" href="/style.css" />
-
-    <!-- This is a handlebars IF statement
-         Checking for a custom "color" parameter from server.js -->
-    {{#if color}} 
-    <!-- If there is a color value, update the style for the page title -->
-    <style>
-      .title {
-        color: {{color}};
-      }
-    </style>
-    {{/if}}    
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script>
       const socket = io();
+      
       
         $(document).ready(function(){
           $('#VoteHot').click(function(){
@@ -51,6 +41,13 @@
           $('#VoteCold').click(function(){
             socket.emit('vote', 'cold');
           });
+          
+          $('#VoteResults').text('0');
+          
+          socket.on("update", (...args) => {
+            console.log('update', args);
+            $('#VoteResults').text('0');
+          });
         });
 
     </script>
@@ -59,39 +56,26 @@
   <body>
     <div class="wrapper">
       <div class="content" role="main">
-        
-        <!-- This is the start of content for our page -->
         <h1 class="title">Match Made on Stage</h1>
         
-        <!-- Add text indicating that we've changed color OR had an error -->
-        {{#if color}}
-          <p class="color-info">
-            Now available in <b>{{color}}</b>!
-          </p>
-        {{/if}}  
-        
-        {{#if colorError}}
-          <p class="color-info">
-            
-            <!-- The server script passes colorError if the user submission can't be matched -->
-            Hmm. Couldn't find <b>"{{colorError}}"</b>. 
-            <a href="?randomize=go">Try a random color?</a>
-          </p>
-        {{/if}}
-        
-
-        
         <div class="vote-form">
-          <p style="text-align: center;">
+          <p>
             How is the date going?
           </p>
           <button class="hot" id="VoteHot">HOT</button>
           <button class="not" id="VoteCold">COLD</button>
         </div>
         
+        <div class="vote-results">
+          <p>
+            Results
+          </p>
+          <p id="VoteResults">
+          </p>
+        </div>
+        
       </div>
     </div>
-    <!-- The footer holds our remix button — you can use it for structure or cut it out ✂ -->
     <footer class="footer">
       <div class="links">
         <a href="https://www.matchmadeonstage.com/">Website</a> ◆ 

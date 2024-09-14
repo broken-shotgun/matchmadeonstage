@@ -102,22 +102,6 @@ a:not(.btn--remix):visited {
 END Glitch hello-app default styles
 ******************************************************************************/
 
-.hot {
-  background: red;
-  color: white;
-  width: 300px;
-  margin: 0 40px;
-  font-size: 40px;
-  font-weight: bold;
-}
-
-.not {
-  background: cyan;
-  width: 300px;
-  font-size: 40px;
-  font-style: italic;
-}
-
 body {
   font-family: HK Grotesk;
   background-color: var(--color-bg);
@@ -172,9 +156,7 @@ p {
 }
 .vote-form {
   text-align:center;
-    
 }
-
 .vote-form a:not(.btn--remix) {
   font-weight: bold;
   color: var(--color-text-main);
@@ -187,6 +169,27 @@ p {
   cursor: pointer;
   box-shadow: -8px 4px 20px #9BE7D8;
 }
+
+.hot {
+  background: red;
+  color: white;
+  width: 300px;
+  margin: 0 40px;
+  font-size: 40px;
+  font-weight: bold;
+}
+
+.not {
+  background: cyan;
+  width: 300px;
+  font-size: 40px;
+  font-style: italic;
+}
+
+.vote-results {
+  text-align:center;
+}
+
 form {
   margin: 0.75rem 0;
 }
