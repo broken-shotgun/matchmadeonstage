@@ -118,7 +118,7 @@ fastify.post("/", function (request, reply) {
 fastify.get("/reset", function (request, reply) {
   if (request.query.password === process.env.ADMIN_PASSWORD) {
     votes = 0;
-    
+    fastify.io.emit('update', votes);
     
     return reply.send({ message: 'Voting successfully reset' });
   }
@@ -136,14 +136,14 @@ fastify.ready((err) => {
     
     socket.on('vote', (msg) => {
       console.log('vote: ' + msg);
-      
+
       if (msg === 'hot') votes += 1;
       else votes -= 1;
-      
-      socket.emit('update', votes);
+
+      fastify.io.emit('update', votes);
     });
   });
-})
+});
 
 // Run the server and report out to the logs
 fastify.listen(
