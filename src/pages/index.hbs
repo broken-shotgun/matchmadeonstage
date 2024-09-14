@@ -32,24 +32,20 @@
     <script>
       const socket = io();
       
+      socket.on("update", (result) => {
+        console.log('update', result);
+        $('#VoteResults').text(result);
+      });
       
-        $(document).ready(function(){
-          $('#VoteHot').click(function(){
-            socket.emit('vote', 'hot');
-          });
-          
-          $('#VoteCold').click(function(){
-            socket.emit('vote', 'cold');
-          });
-          
-          $('#VoteResults').text('0');
-          
-          socket.on("update", (...args) => {
-            console.log('update', args);
-            $('#VoteResults').text('0');
-          });
+      $(document).ready(function(){
+        $('#VoteHot').click(function(){
+          socket.emit('vote', 'hot');
         });
 
+        $('#VoteCold').click(function(){
+          socket.emit('vote', 'cold');
+        });
+      });
     </script>
     
   </head>
