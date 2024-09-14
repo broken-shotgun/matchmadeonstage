@@ -50,7 +50,7 @@
       <div class="content" role="main">
         
         <!-- This is the start of content for our page -->
-        <h1 class="title">Hello Node!</h1>
+        <h1 class="title">Match Made on Stage</h1>
         
         <!-- Add text indicating that we've changed color OR had an error -->
         {{#if color}}
@@ -68,62 +68,23 @@
           </p>
         {{/if}}
         
-        <div class="color-form">
-          
-          <!-- Our default paragraph/message -->
-          {{#unless colorError}}
-            {{#unless color}}
-          
-            <!-- There are fancier ways to do this, 
-                 but nesting two "#unless" statements sets up an 
-                 "if these are both missing..." condition -->
-            <p>
-              Learn about communication with a server by talking about color.
-            </p>
-            {{/unless}}
-          {{/unless}}
-      
-          
-          <button>HOT</button>
-          <button>NOT</button>
-          
-          <!-- This randomize link communicates with the server (server.js) 
-               using a querystring and GET request instead of a form POST -->
-          Can't decide? <a href="?randomize=go">Use a random color!</a>
-        </div>
+        <p>
+          How is the date going?
+        </p>
         
-        <div class="illo-container">
-          <img src="https://cdn.glitch.com/c62efef6-1e75-45cf-b248-afeccdda9477%2Fillustration.svg?v=1618196069568" class="illustration" alt="Node logo" />
-        </div>
-        
-        <!-- Instructions on using this project -->
-        <div class="instructions">
-          <h2>
-            Using this project
-          </h2>
-          <p>
-            This is the Glitch <strong>Hello Node</strong> project. You can
-            use it to build your own app. Check out README.md in the editor for
-            more info and next steps you can take!
-          </p>
+        <div class="vote-form">
+          <button class="hot">HOT</button>
+          <button class="not">COLD</button>
         </div>
         
       </div>
     </div>
     <!-- The footer holds our remix button — you can use it for structure or cut it out ✂ -->
     <footer class="footer">
-      <div class="links"></div>
-      <a
-        class="btn--remix"
-        target="_top"
-        href="https://glitch.com/edit/#!/remix/glitch-hello-node"
-      >
-        <img
-          src="https://cdn.glitch.com/605e2a51-d45f-4d87-a285-9410ad350515%2FLogo_Color.svg?v=1618199565140"
-          alt=""
-        />
-        Remix on Glitch
-      </a>
+      <div class="links">
+        <a href="https://www.matchmadeonstage.com/">Website</a>
+        <a href="https://www.instagram.com/matchmadeonstage/">Instagram</a>
+      </div>
     </footer>
   </body>
 </html>

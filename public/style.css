@@ -102,6 +102,22 @@ a:not(.btn--remix):visited {
 END Glitch hello-app default styles
 ******************************************************************************/
 
+.hot {
+  background: red;
+  color: white;
+  width: 300px;
+  margin: 0 40px;
+  font-size: 40px;
+  font-weight: bold;
+}
+
+.not {
+  background: cyan;
+  width: 300px;
+  font-size: 40px;
+  font-style: italic;
+}
+
 body {
   font-family: HK Grotesk;
   background-color: var(--color-bg);
