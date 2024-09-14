@@ -113,17 +113,15 @@ fastify.post("/", function (request, reply) {
 });
 
 fastify.get("/reset", function (request, reply) {
-  // params is an object we'll pass to our handlebars template
-  let params = { seo: seo };
-
-  // If someone clicked the option for a random color it'll be passed in the querystring
-  if (request.query.password) {
+  if (request.query.password === process.env.ADMIN_PASSWORD) {
+    // TODO reset voting here
     
-    reply.send({ message: 'Voting successfully reset' });
+    return reply.send({ message: 'Voting successfully reset' });
   }
 
-  reply.send({ message: 'Voting successfully reset' });
+  return reply.send({ message: 'Requires admin password' });
 });
+
 fastify.ready((err) => {
   if (err) throw err
 

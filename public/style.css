@@ -170,26 +170,27 @@ p {
 .color-search {
   margin-top: 3rem;
 }
-.color-form {
-  width: 90%;
-  max-width: 500px;
-  margin-left: 5px;
+.vote-form {
+  text-align:center;
+    
 }
-.color-form a:not(.btn--remix) {
+
+.vote-form a:not(.btn--remix) {
   font-weight: bold;
   color: var(--color-text-main);
   margin-top: 8px;
 }
-.color-form button {
+.vote-form button {
   margin-top: 8px;
 }
-.color-form button:hover {
+.vote-form button:hover {
   cursor: pointer;
   box-shadow: -8px 4px 20px #9BE7D8;
 }
 form {
   margin: 0.75rem 0;
 }
+
 button,
 input {
   font-family: inherit;
