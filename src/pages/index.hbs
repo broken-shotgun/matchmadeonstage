@@ -37,6 +37,13 @@
       }
     </style>
     {{/if}}    
+    
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const socket = io();
+      socket.emit('vote', 'hot');
+    </script>
+    
   </head>
   <body>
     <div class="wrapper">
@@ -75,25 +82,10 @@
             </p>
             {{/unless}}
           {{/unless}}
+      
           
-          <!-- The "What's your favorite color?" form sends a POST request to the server
-               Check server.js to see how it works -->
-          <form class="color-search" method="post">
-              <label for="color">
-                
-                <!-- We use the handlebars "#if" statement so the form can adapt to its situation -->
-                {{#if color}}
-                  Try another color?<br>
-                {{else}}
-                  What's your favorite color?<br>
-                {{/if}}
-                <input id="color" name="color" required="required" type="text">
-              </label>
-            
-            <!-- If the user submits a value through the form 
-                 it'll be passed to the server in the request body  -->
-            <button type="submit">Submit</button>
-          </form>
+          <button>HOT</button>
+          <button>NOT</button>
           
           <!-- This randomize link communicates with the server (server.js) 
                using a querystring and GET request instead of a form POST -->

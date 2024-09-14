@@ -29,6 +29,10 @@ fastify.register(require("@fastify/view"), {
   },
 });
 
+fastify.register(require("fastify-socket.io"), {
+  // put your options here
+});
+
 // Load and parse SEO data
 const seo = require("./src/seo.json");
 if (seo.url === "glitch-default") {
@@ -57,6 +61,8 @@ fastify.get("/", function (request, reply) {
       colorError: null,
       seo: seo,
     };
+    
+    fastify.io.emit("random");
   }
 
   // The Handlebars code will be able to access the parameter values and build them into the page
@@ -105,6 +111,18 @@ fastify.post("/", function (request, reply) {
   // The Handlebars template will use the parameter values to update the page with the chosen color
   return reply.view("/src/pages/index.hbs", params);
 });
+
+fastify.ready((err) => {
+  if (err) throw err
+
+  fastify.io.on('connect', (socket) => {
+    console.info('Socket connected!', socket.id);
+    
+    socket.on('vote', (msg) => {
+      console.log('vote: ' + msg);
+    });
+  });
+})
 
 // Run the server and report out to the logs
 fastify.listen(
