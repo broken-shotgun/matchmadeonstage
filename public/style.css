@@ -8,7 +8,7 @@ to this section's matching END comment to see page-specific styles.
 ******************************************************************************/
 /* Our default values set as CSS variables */
 :root {
-  --color-bg: #BDC9FF;
+  --color-bg: #FDF0E6;
   --color-text-main: #000000;
   --color-primary: #AFECE0;
   --wrapper-height: 87vh;
@@ -73,7 +73,7 @@ to this section's matching END comment to see page-specific styles.
   padding: 1rem 0 0.75rem 0;
   width: 100%;
   flex-wrap: wrap;
-  border-top: 4px solid #fff;
+  border-top: 4px solid #F08E80;
 }
 
 .footer a:not(.btn--remix):link,
