@@ -38,10 +38,21 @@
     </style>
     {{/if}}    
     
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script>
       const socket = io();
-      socket.emit('vote', 'hot');
+      
+        $(document).ready(function(){
+          $('#VoteHot').click(function(){
+            socket.emit('vote', 'hot');
+          });
+          
+          $('#VoteCold').click(function(){
+            socket.emit('vote', 'cold');
+          });
+        });
+
     </script>
     
   </head>
@@ -73,8 +84,8 @@
         </p>
         
         <div class="vote-form">
-          <button class="hot">HOT</button>
-          <button class="not">COLD</button>
+          <button class="hot" id="VoteHot">HOT</button>
+          <button class="not" id="VoteCold">COLD</button>
         </div>
         
       </div>
@@ -82,7 +93,7 @@
     <!-- The footer holds our remix button — you can use it for structure or cut it out ✂ -->
     <footer class="footer">
       <div class="links">
-        <a href="https://www.matchmadeonstage.com/">Website</a>
+        <a href="https://www.matchmadeonstage.com/">Website</a> ◆ 
         <a href="https://www.instagram.com/matchmadeonstage/">Instagram</a>
       </div>
     </footer>

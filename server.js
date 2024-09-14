@@ -112,6 +112,18 @@ fastify.post("/", function (request, reply) {
   return reply.view("/src/pages/index.hbs", params);
 });
 
+fastify.get("/reset", function (request, reply) {
+  // params is an object we'll pass to our handlebars template
+  let params = { seo: seo };
+
+  // If someone clicked the option for a random color it'll be passed in the querystring
+  if (request.query.password) {
+    
+    reply.send({ message: 'Voting successfully reset' });
+  }
+
+  reply.send({ message: 'Voting successfully reset' });
+});
 fastify.ready((err) => {
   if (err) throw err
 
