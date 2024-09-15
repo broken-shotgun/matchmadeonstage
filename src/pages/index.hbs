@@ -32,9 +32,14 @@
     <script>
       const socket = io();
       
+      const coldImg = "https://cdn.glitch.global/b70d6866-7003-4c65-83a0-1659badd1a04/cold_thermo.png?v=1726363877998";
+      const midImg = "https://cdn.glitch.global/b70d6866-7003-4c65-83a0-1659badd1a04/mid_thermo.png?v=1726363881152";
+      const hotImg = "https://cdn.glitch.global/b70d6866-7003-4c65-83a0-1659badd1a04/hot_thermo.png?v=1726363884214";
+      
       socket.on("update", (result) => {
         console.log('update', result);
-        $('#VoteResults').text(result);
+        const currentImg = result < 0.3333 ? coldImg : result < 0.6666 ? midImg : hotImg;
+        $('#VoteResults').attr('src', currentImg);
       });
       
       $(document).ready(function(){
@@ -67,8 +72,7 @@
           <p>
             Results
           </p>
-          <img id="VoteResults" src="https://cdn.glitch.global/b70d6866-7003-4c65-83a0-1659badd1a04/cold_thermo.png?v=1726363877998">
-          </img>
+          <img id="VoteResults" src="https://cdn.glitch.global/b70d6866-7003-4c65-83a0-1659badd1a04/cold_thermo.png?v=1726363877998" style="width: 300px" />
         </div>
         
       </div>
