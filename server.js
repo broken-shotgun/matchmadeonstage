@@ -39,8 +39,8 @@ if (seo.url === "glitch-default") {
   seo.url = `https://${process.env.PROJECT_DOMAIN}.glitch.me`;
 }
 
-// votes simply stored as current number
-let votes = 0;
+// votes simply stored as current number in dict by socket id
+let votes = {};
 
 /**
  * Our home page route
@@ -96,7 +96,7 @@ fastify.post("/", function (request, reply) {
 
 fastify.get("/reset", function (request, reply) {
   if (request.query.password === process.env.ADMIN_PASSWORD) {
-    votes = 0;
+    votes = {};
     fastify.io.emit('update', votes);
     
     return reply.send({ message: 'Voting successfully reset' });
@@ -116,8 +116,9 @@ fastify.ready((err) => {
     socket.on('vote', (msg) => {
       console.log('vote: ' + msg);
 
-      if (msg === 'hot') votes += 1;
-      else votes -= 1;
+      const vote = msg === 'hot' ? 1 : -1;
+      
+      votes[socket.id] = vote;
 
       fastify.io.emit('update', votes);
     });
