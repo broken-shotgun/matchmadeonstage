@@ -94,10 +94,12 @@ fastify.post("/", function (request, reply) {
   return reply.view("/src/pages/index.hbs", params);
 });
 
+const sumValues = obj => Object.values(obj).reduce((a, b) => a + b, 0);
+
 fastify.get("/reset", function (request, reply) {
   if (request.query.password === process.env.ADMIN_PASSWORD) {
     votes = {};
-    fastify.io.emit('update', votes);
+    fastify.io.emit('update', 0);
     
     return reply.send({ message: 'Voting successfully reset' });
   }
@@ -111,7 +113,10 @@ fastify.ready((err) => {
   fastify.io.on('connect', (socket) => {
     console.info('Socket connected!', socket.id);
     
-    socket.emit('update', votes);
+    if (Object.keys(votes).length > 0)
+      socket.emit('update', sumValues(votes) / Object.keys(votes).length);
+    else
+      socket.emit('update', 0);
     
     socket.on('vote', (msg) => {
       console.log('vote: ' + msg);
@@ -120,10 +125,13 @@ fastify.ready((err) => {
       
       votes[socket.id] = vote;
 
-      fastify.io.emit('update', votes);
+      fastify.io.emit('update', sumValues(votes) / Object.keys(votes).length);
+      
+      console.log(sumValues(votes) / Object.keys(votes).length);
     });
   });
 });
+
 
 // Run the server and report out to the logs
 fastify.listen(
