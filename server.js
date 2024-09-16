@@ -41,6 +41,7 @@ if (seo.url === "glitch-default") {
 
 // votes simply stored as current number in dict by socket id
 let votes = {};
+let total_votes = 0;
 
 /**
  * Our home page route
@@ -99,6 +100,8 @@ const sumValues = obj => Object.values(obj).reduce((a, b) => a + b, 0);
 fastify.get("/reset", function (request, reply) {
   if (request.query.password === process.env.ADMIN_PASSWORD) {
     votes = {};
+    total_votes = 0;
+    
     fastify.io.emit('update', 0);
     
     return reply.send({ message: 'Voting successfully reset' });
@@ -113,8 +116,8 @@ fastify.ready((err) => {
   fastify.io.on('connect', (socket) => {
     console.info('Socket connected!', socket.id);
     
-    if (Object.keys(votes).length > 0)
-      socket.emit('update', sumValues(votes) / Object.keys(votes).length);
+    if (total_votes > 0)
+      socket.emit('update', sumValues(votes) / total_votes);
     else
       socket.emit('update', 0);
     
@@ -124,10 +127,12 @@ fastify.ready((err) => {
       const vote = msg === 'hot' ? 1 : -1;
       
       votes[socket.id] = (votes[socket.id] ?? 0) + vote;
+      total_votes += 1;
 
-      fastify.io.emit('update', sumValues(votes) / Object.keys(votes).length);
+      const result = sumValues(votes) / total_votes;
+      fastify.io.emit('update', result);
       
-      console.log(sumValues(votes) / Object.keys(votes).length);
+      console.log(result);
     });
   });
 });
