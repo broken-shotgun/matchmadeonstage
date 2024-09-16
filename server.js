@@ -123,7 +123,7 @@ fastify.ready((err) => {
 
       const vote = msg === 'hot' ? 1 : -1;
       
-      votes[socket.id] = vote;
+      votes[socket.id] = (votes[socket.id] ?? 0) + vote;
 
       fastify.io.emit('update', sumValues(votes) / Object.keys(votes).length);
       
