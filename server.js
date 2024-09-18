@@ -31,6 +31,9 @@ fastify.register(require("@fastify/view"), {
 
 fastify.register(require("fastify-socket.io"), {
   // put your options here
+  cors: {
+    origin: ['https://www.matchmadeonstage.com', 'https://matchmadeonstage.glitch.me']
+  }
 });
 
 // Load and parse SEO data
