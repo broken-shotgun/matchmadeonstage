@@ -39,7 +39,7 @@ if (seo.url === "glitch-default") {
   seo.url = `https://${process.env.PROJECT_DOMAIN}.glitch.me`;
 }
 
-// votes simply stored as current number in dict by socket id
+// votes simply stored as number
 let votes = 0;
 
 /**
@@ -93,8 +93,6 @@ fastify.post("/", function (request, reply) {
   // The Handlebars template will use the parameter values to update the page with the chosen color
   return reply.view("/src/pages/index.hbs", params);
 });
-
-const sumValues = obj => Object.values(obj).reduce((a, b) => a + b, 0);
 
 fastify.get("/reset", function (request, reply) {
   if (request.query.password === process.env.ADMIN_PASSWORD) {
