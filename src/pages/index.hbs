@@ -38,7 +38,7 @@
       
       socket.on("update", (result) => {
         console.log('update', result);
-        const currentImg = result < 0.3333 ? coldImg : result < 0.6666 ? midImg : hotImg;
+        const currentImg = result < 33 ? coldImg : result < 66 ? midImg : hotImg;
         $('#VoteResults').attr('src', currentImg);
       });
       
