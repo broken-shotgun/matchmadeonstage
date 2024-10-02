@@ -29,17 +29,40 @@
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
-    <script>      
-      const socket = io();
+    <script>
+      const blue = "#239CF7";
+      const yellow = "#FDCD00";
+      const red = "#DD3D27";
+
+      /**
+       * @param amount 0-100, percent filled
+       */
+      const setFillAmount = (amount) => {
+        var a = amount;
+        if (amount < 0) a = 0;
+        if (amount > 100) a = 100;
+
+        if (a < 33) {
+          $(".amount").css("backgroundColor", blue);
+          $(".red-circle").css("backgroundColor", blue);
+          $(".filler").css("backgroundColor", blue);
+        } else if (a < 66) {
+          $(".amount").css("backgroundColor", yellow);
+          $(".red-circle").css("backgroundColor", yellow);
+          $(".filler").css("backgroundColor", yellow);
+        } else {
+          $(".amount").css("backgroundColor", red);
+          $(".red-circle").css("backgroundColor", red);
+          $(".filler").css("backgroundColor", red);
+        }
+        $(".amount").css("height", `${a}%`);
+      }
       
-      const coldImg = "https://cdn.glitch.global/b70d6866-7003-4c65-83a0-1659badd1a04/cold_thermo.png?v=1726363877998";
-      const midImg = "https://cdn.glitch.global/b70d6866-7003-4c65-83a0-1659badd1a04/mid_thermo.png?v=1726363881152";
-      const hotImg = "https://cdn.glitch.global/b70d6866-7003-4c65-83a0-1659badd1a04/hot_thermo.png?v=1726363884214";
+      const socket = io();
       
       socket.on("update", (result) => {
         console.log('update', result);
-        const currentImg = result < 33 ? coldImg : result < 66 ? midImg : hotImg;
-        $('#VoteResults').attr('src', currentImg);
+        setFillAmount(result);
       });
       
       $(document).ready(function(){
@@ -68,11 +91,23 @@
           <button class="not" id="VoteCold">COLD</button>
         </div>
         
-        <div class="vote-results">
+        <!-- <div class="vote-results">
           <p>
             Results
           </p>
           <img id="VoteResults" src="https://cdn.glitch.global/b70d6866-7003-4c65-83a0-1659badd1a04/cold_thermo.png?v=1726363877998" style="width: 300px" />
+        </div> -->
+        
+        <div class="donation-meter">
+          <span class="glass">
+              <span class="amount"></span>
+          </span>
+          <div class="bulb">
+              <span class="red-circle"></span>
+              <span class="filler">
+                  <span></span>
+              </span>
+          </div>
         </div>
         
       </div>
