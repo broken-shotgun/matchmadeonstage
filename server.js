@@ -29,6 +29,35 @@ db.serialize(() => {
   }
 });
 
+const getDateKey = () => {
+  const now = new Date();
+  const options = {
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
+  };
+  return now.toLocaleDateString('en-US', options);
+}
+
+const loadVotes = (dateKey) => {
+  db.get(`SELECT votes from Votes WHERE date = '${dateKey}' ORDER BY date DESC LIMIT 1`, (err, rows) => {
+    if (rows) {
+      votes = rows[0].votes;
+    }
+  });
+}
+
+const updateVotes = (votes) => {
+  const voteDate = getDateKey();
+  console.log(voteDate, votes);
+  
+  db.run('INSERT INTO Votes (date, votes) VALUES (?,?) ON CONFLICT(date) DO UPDATE SET votes=excluded.votes', voteDate, votes, error => {
+    if (error) {
+      console.error(`Error updating votes from ${voteDate}: ${error}`);
+    }
+  });
+}
+
 // Require the fastify framework and instantiate it
 const fastify = require("fastify")({
   // Set this to true for detailed logging:
@@ -68,6 +97,7 @@ if (seo.url === "glitch-default") {
 
 // votes simply stored as number
 let votes = 0;
+loadVotes(getDateKey()); // load from DB
 
 /**
  * Our home page route
@@ -163,27 +193,6 @@ fastify.ready((err) => {
     });
   });
 });
-
-const getDateKey = () => {
-  const now = new Date();
-  const options = {
-    year: 'numeric',
-    month: 'numeric',
-    day: 'numeric',
-  };
-  return now.toLocaleDateString('en-US', options);
-}
-
-const updateVotes = (votes) => {
-  
-  console.log(voteDate, votes);
-  
-  db.run('INSERT INTO Votes (date, votes) VALUES (?,?) ON CONFLICT(date) DO UPDATE SET votes=excluded.votes', voteDate, votes, error => {
-    if (error) {
-      console.error(`Error updating votes from ${voteDate}: ${error}`);
-    }
-  });
-}
 
 
 // Run the server and report out to the logs
