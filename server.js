@@ -5,6 +5,30 @@
 
 const path = require("path");
 
+// init sqlite db
+const fs = require("fs");
+const dbFile = "./.data/votes.db";
+const exists = fs.existsSync(dbFile);
+const sqlite3 = require("sqlite3").verbose();
+const db = new sqlite3.Database(dbFile);
+
+// if ./.data/votes.db does not exist, create it, otherwise print recent records to console
+db.serialize(() => {
+  if (!exists) {
+    db.run(
+      "CREATE TABLE Votes (id INTEGER PRIMARY KEY AUTOINCREMENT, date TEXT, votes INTEGER)"
+    );
+    console.log("New table Votes created!");
+  } else {
+    console.log('Database "Votes" ready to go!');
+    db.each("SELECT * from Votes ORDER BY date DESC LIMIT 25", (err, row) => {
+      if (row) {
+        console.log(`${row.date}> ${row.votes}`);
+      }
+    });
+  }
+});
+
 // Require the fastify framework and instantiate it
 const fastify = require("fastify")({
   // Set this to true for detailed logging:
@@ -128,6 +152,25 @@ fastify.ready((err) => {
       if (votes > 100) votes = 100;
 
       fastify.io.emit('update', votes);
+      
+      db.run('INSERT INTO Votes (date, votes) VALUES (?,?)', 
+             nightbotChannel.name, nightbotUser.name, date, cleansedPrompt, completed, 
+             error => {
+        if (error) {
+          console.error(`Error submitting prompt from ${nightbotUser.name}: ${error}`);
+          const errorMsg = { message: `@${nightbotUser.displayName} -> Error submitting prompt, please try again.` };
+          response.send(errorMsg.message);
+        } else {
+          const successMsg = { message: `@${nightbotUser.displayName} -> Prompt added to queue.` }
+          response.send(successMsg.message);
+        }
+      });
+    });
+    
+    socket.on('ask_question', (msg) => {
+      console.log('vote: ' + msg);
+//       const vote = msg === 'hot' ? 1 : -1;
+//       fastify.io.emit('update', votes);
     });
   });
 });
