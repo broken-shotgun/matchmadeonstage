@@ -16,7 +16,7 @@ const db = new sqlite3.Database(dbFile);
 db.serialize(() => {
   if (!exists) {
     db.run(
-      "CREATE TABLE Votes (id INTEGER PRIMARY KEY AUTOINCREMENT, date TEXT, votes INTEGER)"
+      "CREATE TABLE Votes (date TEXT PRIMARY KEY, votes INTEGER)"
     );
     console.log("New table Votes created!");
   } else {
@@ -153,18 +153,7 @@ fastify.ready((err) => {
 
       fastify.io.emit('update', votes);
       
-      db.run('INSERT INTO Votes (date, votes) VALUES (?,?)', 
-             nightbotChannel.name, nightbotUser.name, date, cleansedPrompt, completed, 
-             error => {
-        if (error) {
-          console.error(`Error submitting prompt from ${nightbotUser.name}: ${error}`);
-          const errorMsg = { message: `@${nightbotUser.displayName} -> Error submitting prompt, please try again.` };
-          response.send(errorMsg.message);
-        } else {
-          const successMsg = { message: `@${nightbotUser.displayName} -> Prompt added to queue.` }
-          response.send(successMsg.message);
-        }
-      });
+      updateVotes(votes);
     });
     
     socket.on('ask_question', (msg) => {
@@ -174,6 +163,27 @@ fastify.ready((err) => {
     });
   });
 });
+
+const getDateKey = () => {
+  const now = new Date();
+  const options = {
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
+  };
+  return now.toLocaleDateString('en-US', options);
+}
+
+const updateVotes = (votes) => {
+  
+  console.log(voteDate, votes);
+  
+  db.run('INSERT INTO Votes (date, votes) VALUES (?,?) ON CONFLICT(date) DO UPDATE SET votes=excluded.votes', voteDate, votes, error => {
+    if (error) {
+      console.error(`Error updating votes from ${voteDate}: ${error}`);
+    }
+  });
+}
 
 
 // Run the server and report out to the logs
