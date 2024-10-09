@@ -42,7 +42,7 @@ const getDateKey = () => {
 const loadVotes = (dateKey) => {
   db.get(`SELECT votes from Votes WHERE date = '${dateKey}' ORDER BY date DESC LIMIT 1`, (err, rows) => {
     if (rows) {
-      votes = rows[0].votes;
+      votes = rows[0]?.votes ?? 0;
     }
   });
 }
@@ -154,6 +154,7 @@ fastify.post("/", function (request, reply) {
 fastify.get("/reset", function (request, reply) {
   if (request.query.password === process.env.ADMIN_PASSWORD) {
     votes = 0;
+    updateVotes(votes);
     
     fastify.io.emit('update', 0);
     
