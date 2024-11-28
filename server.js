@@ -112,6 +112,14 @@ fastify.get("/", function (request, reply) {
   return reply.view("/src/pages/index.hbs", params);
 });
 
+fastify.get("/results", function (request, reply) {
+  // params is an object we'll pass to our handlebars template
+  let params = { seo: seo };
+
+  // The Handlebars code will be able to access the parameter values and build them into the page
+  return reply.view("/src/pages/results.hbs", params);
+});
+
 /**
  * Our POST route to handle and react to form submissions
  *
