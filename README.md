@@ -1,10 +1,12 @@
 # Match Made on Stage Voting App
 
-Made by JP
+Made by JP (http://brokenshotgun.com)
 
-## You built this with Glitch!
+Voting:
+https://matchmadeonstage--match-made-on-stage.us-central1.hosted.app/
 
-[Glitch](https://glitch.com) is a friendly community where millions of people come together to build web apps and websites.
+Fullscreen results page:
+https://matchmadeonstage--match-made-on-stage.us-central1.hosted.app/results
 
-- Need more help? [Check out our Help Center](https://help.glitch.com/) for answers to any common questions.
-- Ready to make it official? [Become a paid Glitch member](https://glitch.com/pricing) to boost your app with private sharing, more storage and memory, domains and more.
+Reset votes:
+https://matchmadeonstage--match-made-on-stage.us-central1.hosted.app/reset?password=<REPLACE_WITH_ADMIN_PASSOWRD>
