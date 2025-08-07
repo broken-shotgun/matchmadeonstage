@@ -3,10 +3,10 @@
 Made by JP (http://brokenshotgun.com)
 
 Voting:
-https://matchmadeonstage--match-made-on-stage.us-central1.hosted.app/
+GET /
 
 Fullscreen results page:
-https://matchmadeonstage--match-made-on-stage.us-central1.hosted.app/results
+GET /results
 
 Reset votes:
-https://matchmadeonstage--match-made-on-stage.us-central1.hosted.app/reset?password=<REPLACE_WITH_ADMIN_PASSOWRD>
+GET /reset?password=<REPLACE_WITH_ADMIN_PASSOWRD>
