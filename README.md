@@ -1,6 +1,6 @@
 # Match Made on Stage Voting App
 
-Made by JP (http://brokenshotgun.com)
+Made by JP (https://www.brokenshotgun.com/)
 
 Voting:
 GET /
